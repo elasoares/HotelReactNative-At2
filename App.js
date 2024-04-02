@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import Routes from "./src/pages/routes";
+import  AboutPage  from "./src/pages/AboutPage";
+import EventInsertPage from "./src/pages/EventInsertPage";
+import EventsListPage from './src/pages/EventsListPage'
+import PhotoPage from "./src/pages/PhotoPage";
+import  HeaderButton from './src/component/HeaderButton';
 
-export default function App() {
+
+const Drawer = createDrawerNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator screenOptions={{
+        headerRight: () => (
+          <HeaderButton />
+        ),
+      }}>
+        <Drawer.Screen name={Routes.About} component={AboutPage} />
+        <Drawer.Screen name={Routes.EventsListPage} component={EventsListPage} />
+        <Drawer.Screen name={Routes.EventInsertPage} component={EventInsertPage} />
+        <Drawer.Screen name={Routes.PhotoPage} component={PhotoPage} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
