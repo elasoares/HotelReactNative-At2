@@ -1,5 +1,5 @@
 const Routes = {
-  SignUpPage: "cameraPermission",
+  Camera: "cameraPermission",
   About: "Sobre nós",
   EventsListPage: "Lista",
   ListaContainer: "ListaContainer",

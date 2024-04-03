@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, StyleSheet, Pressable, ScrollView} from "react-native";
+import { Text, View, TextInput, StyleSheet, Pressable, ScrollView, ActivityIndicator} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
 const EventInsertPage = () => {
@@ -31,6 +31,37 @@ const EventInsertPage = () => {
     years.push({ value: i, label: i.toString() });
   }
 
+
+  const handleSubmit = () => {
+    setIsLoading(true); 
+    const newEvent = {
+      name,
+      location,
+      price: parseFloat(price),
+      description,
+      date: new Date(dateYear, dateMonth - 1, dateDay), 
+    };
+
+    fetch(`${url}/${resource}.json`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newEvent),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.warn(data);
+      setMsg("Evento criado com sucesso! ID: " + data.name); 
+    })
+    .catch((error) => {
+      console.error(error);
+      setMsg("Erro ao criar evento: " + error.message);
+    })
+    .finally(() => setIsLoading(false));
+  };
+
+  {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
   return (
     <ScrollView style={styles.container}>
       <TextInput
@@ -94,7 +125,7 @@ const EventInsertPage = () => {
       <TextInput
          style={styles.input}
         value={date.toString()}
-        onChangeText={(text)=> setdate(text)}
+        onChangeText={(text) => setDate(text)} 
         placeholder="date"
         />
 
@@ -108,37 +139,11 @@ const EventInsertPage = () => {
 
       <Pressable
         style={styles.botaoSalvar}
-        onPress={() => {
-          setIsLoading(true); 
-          const newEvent = {
-            name: name,
-            location: location,
-            price: Number.parseFloat(price),
-            description: description,
-            date: new Date(dateYear, dateMonth - 1, dateDay), 
-          };
-          fetch(`${url}/${resource}.json`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newEvent),
-          })
-            .then((response) => response.json())
-            .then((date)=> {
-              console.warn(date)
-      setMsg("Evento criado com sucesso! ID: " + data.name); 
-      setIsLoading(false); 
-    })
-            .catch((error) => {
-       setMsg("Erro ao criar evento: " + error.message);
-      setIsLoading(false); 
-    });
-        }}
+        onPress={handleSubmit}
       >
         <Text style={{ color: "#fff" }}>Salvar</Text>
       </Pressable>
-
+      
       
     </ScrollView>
   );

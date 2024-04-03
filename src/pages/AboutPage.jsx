@@ -1,71 +1,79 @@
-import React from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
-import Routes from './routes';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 
-const AboutPage = ({ navigation }) => {
+const AboutPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Nossa Empresa</Text>
+      <Text style={styles.title}>Sobre o App</Text>
       <Text style={styles.text}>
-        Somos uma empresa comprometida com a excelência no serviço ao cliente, oferecendo os melhores produtos e serviços do mercado. Fundada em [ano de fundação], temos orgulho de nossa trajetória e da confiança que nossos clientes depositam em nós.
+        Este aplicativo foi desenvolvido para proporcionar uma experiência incrível aos usuários na busca por hotéis e eventos emocionantes.
       </Text>
-      
-      <Text style={styles.title}>Nossa Diretoria</Text>
+      <Text style={styles.subtitle}>Desenvolvimento do App</Text>
       <Text style={styles.text}>
-        Nossa diretoria é composta por profissionais com vasta experiência em suas áreas de atuação, comprometidos em liderar a empresa com visão de futuro e inovação.
+        O aplicativo foi desenvolvido utilizando tecnologias modernas e melhores práticas de desenvolvimento de aplicativos móveis. Utilizamos o framework React Native, que nos permitiu criar uma experiência de usuário fluida e consistente em diferentes plataformas móveis.
       </Text>
-      
-      <Text style={styles.title}>Nossos Colaboradores</Text>
       <Text style={styles.text}>
-        Contamos com uma equipe de colaboradores altamente qualificados, dedicados a oferecer o melhor atendimento e suporte aos nossos clientes. Nossa equipe é o coração da nossa empresa.
+        Nosso processo de desenvolvimento foi ágil, com iterações frequentes e feedback contínuo dos usuários. Isso nos permitiu ajustar e aprimorar o aplicativo ao longo do tempo, garantindo uma experiência de alta qualidade para nossos usuários.
       </Text>
-      
-      <Text style={styles.contact}>+55 21 85 9 9964-7850</Text>
-      
-      <Pressable
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate(Routes.EventsListPage);
-        }}
-      >
-        <Text style={styles.buttonText}>Eventos</Text>
-      </Pressable>
+      <Text style={styles.text}>
+        Além disso, o aplicativo utiliza serviços em nuvem para armazenamento de dados, como Firebase, garantindo segurança, escalabilidade e confiabilidade.
+      </Text>
+      <Text style={styles.subtitle}>Desenvolvedores</Text>
+      <Text style={styles.text}>
+        Este aplicativo foi desenvolvido por uma equipe talentosa de desenvolvedores apaixonados pela criação de soluções inovadoras. Entre em contato conosco para saber mais sobre nossos desenvolvedores:
+      </Text>
+      <Text style={styles.text}>
+        - Elaine Soares (elaine@example.com)
+      </Text>
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20, 
+    padding: 20,
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: "center"
+  },
+  subtitle: {
+    fontSize: 20,
     fontWeight: 'bold',
     marginTop: 20,
+    marginBottom: 10,
+    textAlign: "center"
   },
   text: {
     fontSize: 16,
-    marginTop: 10,
-    lineHeight: 24,
+    marginBottom: 10,
+    textAlign: 'center',
   },
-  contact: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#007bff',
-    marginTop: 20,
-  },
-  button: {
-    backgroundColor: '#007bff',
-    padding: 15,
-    marginTop: 20,
-    marginBottom: 50, 
-    borderRadius: 5,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 16,
-    color: '#ffffff',
   },
 });
 

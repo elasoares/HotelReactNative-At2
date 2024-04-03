@@ -9,6 +9,7 @@ const Tab = createBottomTabNavigator();
 
 const ExibirEventosContainer = (props) => {
   const [event, setEvent] = useState(null);
+  const [hotels, setHotels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [msg, setMsg] = useState("");
 
@@ -52,7 +53,7 @@ const ExibirEventosContainer = (props) => {
       </Tab.Screen>
          
       <Tab.Screen name={Routes.HotelContainer}>
-        {() => <HotelContainer event={event.hotels} />}
+        {() => <HotelContainer hotels={event.hotels} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
